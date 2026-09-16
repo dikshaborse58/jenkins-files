@@ -11,7 +11,6 @@ pipeline {
 
         stage('checkout') {
             steps {
-                git 'https://github.com/dikshaborse58/jenkins-files.git'
                 echo "Clonning is successful"
             }
         }
