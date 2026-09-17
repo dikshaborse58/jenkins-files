@@ -37,7 +37,7 @@ pipeline {
             }
         }
    stage('Artifacts to s3') {
-            sh ' target/student-management.war to s3://jenkins-file-53/Artifacts/student.war'
+            sh ' target/*.war to s3://jenkins-file-53/Artifacts/student.war'
             }
         }
     }
