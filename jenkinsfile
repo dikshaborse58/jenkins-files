@@ -1,23 +1,38 @@
 pipeline {
     agent {
-        label 'diksha'
+        label "diksha"
     }
 
-    stages {
+    tools {
+        maven 'mvn'
+    }
 
-        stage('Checkout') {
-            steps {
-                git branch: 'main',
-                    url: 'https://github.com/dikshaborse58/jenkins-files.git'
+    environment {
+        my_aws_cred = credentials('aws-cred')
+    }
+
+    stages{
+
+        stage('Checkout'){
+            steps{
+                git 'https://github.com/dikshaborse58/jenkins-files.git'
+                echo "Clonning is Successful"
             }
         }
 
         stage('Build') {
             steps {
-                sh 'echo "Build started"'
-                sh 'java -version'
+                sh '''
+                  mvn clean package
+                '''
+            }
+            post {
+                success {
+                    archiveArtifacts artifacts: '**/target/*.war', fingerprint: true
+                }
             }
         }
 
+    
+        }
     }
-}
