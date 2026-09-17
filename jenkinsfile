@@ -36,10 +36,17 @@ pipeline {
                 }
             }
         }
-
-        stage('Artifacts to s3') {
+ stage('Artifacts to S3') {
             steps {
-                sh 'aws s3 cp target/*.war s3://jenkins-file-53/Artifacts/student.war'
+                withCredentials([
+                    [$class: 'AmazonWebServicesCredentialsBinding',
+                     credentialsId: 'aws-cred']
+                ]) {
+                    sh '''
+                        aws sts get-caller-identity
+                        aws s3 cp target/student-management.war \
+                        s3://jenkins-file-53/Artifacts/student.war
+                    '''
             }
     }
 }
