@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label "worker"
+        label "diksha"
     }
 
     tools {
@@ -15,7 +15,7 @@ pipeline {
 
         stage('Checkout'){
             steps{
-                git 'https://github.com/mayurpandit25/student-management.git'
+                git 'https://github.com/dikshaborse58/jenkins-files.git'
                 echo "Clonning is Successful"
             }
         }
