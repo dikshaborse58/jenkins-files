@@ -15,8 +15,10 @@ pipeline {
 
         stage('Checkout'){
             steps{
-                git 'https://github.com/dikshaborse58/jenkins-files.git'
+                ssh'''
+              git branch: 'main' url: 'https://github.com/dikshaborse58/jenkins-files.git'
                 echo "Clonning is Successful"
+                '''
             }
         }
 
