@@ -15,10 +15,8 @@ pipeline {
 
         stage('Checkout'){
             steps{
-                ssh'''
-              git branch: 'main' url: 'https://github.com/dikshaborse58/jenkins-files.git'
-                echo "Clonning is Successful"
-                '''
+                git branch: 'main',
+                    url: 'https://github.com/dikshaborse58/jenkins-files.git'
             }
         }
 
@@ -36,4 +34,4 @@ pipeline {
         }
   
      }
-    }
+}
