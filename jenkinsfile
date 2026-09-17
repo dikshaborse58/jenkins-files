@@ -38,10 +38,6 @@ pipeline {
         }
  stage('Artifacts to S3') {
             steps {
-                withCredentials([
-                    [$class: 'AmazonWebServicesCredentialsBinding',
-                     credentialsId: 'aws-cred']
-                ]) {
                     sh '''
                         aws sts get-caller-identity
                         aws s3 cp target/student-management.war \
