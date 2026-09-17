@@ -1,3 +1,4 @@
+```groovy
 pipeline {
     agent {
         label "diksha"
@@ -5,10 +6,6 @@ pipeline {
 
     tools {
         maven 'mvn'
-    }
-
-    environment {
-        my_aws_cred = credentials('aws-cred')
     }
 
     stages {
@@ -36,9 +33,20 @@ pipeline {
                 }
             }
         }
-   stage('Artifacts to s3') {
-            sh ' target/*.war to s3://jenkins-file-53/Artifacts/student.war'
+
+        stage('Artifacts to S3') {
+            steps {
+                withCredentials([
+                    [$class: 'AmazonWebServicesCredentialsBinding',
+                     credentialsId: 'aws-cred']
+                ]) {
+                    sh '''
+                        aws sts get-caller-identity
+                        aws s3 cp target/student-management.war s3://jenkins-file-53/Artifacts/student.war
+                    '''
+                }
             }
         }
     }
-
+}
+```
