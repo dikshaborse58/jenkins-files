@@ -11,24 +11,28 @@ pipeline {
         my_aws_cred = credentials('aws-cred')
     }
 
-    stages{
+    stages {
 
-        stage('Checkout'){
-            steps{
-                git 'https://github.com/dikshaborse58/jenkins-files.git'
-                echo "Clonning is Successful"
+        stage('Checkout') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/dikshaborse58/jenkins-files.git'
+
+                echo "Cloning is Successful"
             }
         }
 
         stage('Build') {
             steps {
                 sh '''
-                  mvn clean package
+                    mvn clean package
                 '''
             }
+
             post {
                 success {
-                    archiveArtifacts artifacts: '**/target/*.war', fingerprint: true
+                    archiveArtifacts artifacts: '**/target/*.war',
+                                     fingerprint: true
                 }
             }
             stage('Artifacts to s3') {
@@ -37,7 +41,5 @@ pipeline {
             }
         }
         }
-
-    
-        }
     }
+}
