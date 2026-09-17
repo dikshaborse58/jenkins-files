@@ -35,11 +35,14 @@ pipeline {
                                      fingerprint: true
                 }
             }
-            stage('Artifacts to s3') {
+        }
+
+        stage('Artifacts to S3') {
             steps {
-                sh 'aws s3 cp target/*.war s3://jenkins-file-53/Artifacts/student.war'
+                sh '''
+                    aws s3 cp target/*.war s3://jenkins-file-53/Artifacts/student.war
+                '''
             }
-          }
         }
     }
 }
