@@ -34,11 +34,6 @@ pipeline {
                 }
             }
         }
-
-        stage('Artifacts to s3') {
-            steps {
-                sh 'aws s3 cp target/*.war s3://mayurcbz.space/Artifacts/student.war'
-            }
-        }
+  
+     }
     }
-}
