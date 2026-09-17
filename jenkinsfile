@@ -37,19 +37,10 @@ pipeline {
             }
         }
 
-        stage('Artifacts to S3') {
-    steps {
-        sh '''
-            echo "AWS identity:"
-            aws sts get-caller-identity
-
-            echo "AWS region:"
-            aws configure get region
-
-            echo "Uploading artifact:"
-            aws s3 cp target/student-management.war s3://jenkins-file-53/Artifacts/student.war
-        '''
+        stage('Artifacts to s3') {
+            steps {
+                sh 'aws s3 cp target/*.war s3://jenkins-file-53/Artifacts/student.war'
+            }
     }
 }
     }
-}
