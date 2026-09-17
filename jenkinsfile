@@ -7,12 +7,16 @@ pipeline {
         maven 'mvn'
     }
 
-    stages {
+    environment {
+        my_aws_cred = credentials('aws-cred')
+    }
 
-        stage('checkout') {
-            steps {
+    stages{
+
+        stage('Checkout'){
+            steps{
                 git 'https://github.com/mayurpandit25/student-management.git'
-                echo "Clonning is successful"
+                echo "Clonning is Successful"
             }
         }
 
@@ -22,17 +26,16 @@ pipeline {
                   mvn clean package
                 '''
             }
-        }
-
-        stage('Test') {
-            steps {
-                echo "Testing is successful"
+            post {
+                success {
+                    archiveArtifacts artifacts: '**/target/*.war', fingerprint: true
+                }
             }
         }
 
-        stage('Deploy') {
+        stage('Artifacts to s3') {
             steps {
-                echo "Deployment is successful"
+                sh 'aws s3 cp target/*.war s3://mayurcbz.space/Artifacts/student.war'
             }
         }
     }
