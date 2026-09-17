@@ -1,20 +1,12 @@
 pipeline {
     agent {
-        label "diksha"
+        label 'diksha'
     }
 
-    tools {
-        maven 'mvn'
-    }
+    stages {
 
-    environment {
-        my_aws_cred = credentials('aws-cred')
-    }
-
-    stages{
-
-        stage('Checkout'){
-            steps{
+        stage('Checkout') {
+            steps {
                 git branch: 'main',
                     url: 'https://github.com/dikshaborse58/jenkins-files.git'
             }
@@ -22,16 +14,10 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh '''
-                  mvn clean package
-                '''
-            }
-            post {
-                success {
-                    archiveArtifacts artifacts: '**/target/*.war', fingerprint: true
-                }
+                sh 'echo "Build started"'
+                sh 'java -version'
             }
         }
-  
-     }
+
+    }
 }
